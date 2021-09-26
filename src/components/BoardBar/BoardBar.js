@@ -1,8 +1,8 @@
-import React from 'react';
-import './BoardBar.scss';
+import React from 'react'
+import './BoardBar.scss'
 
 export default function BoardBar() {
-    return (
-        <nav className='navbar-board'>Board Bar</nav>
-    )
+  return (
+    <nav className='navbar-board'>Board Bar</nav>
+  )
 }
