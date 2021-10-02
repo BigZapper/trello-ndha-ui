@@ -4,7 +4,6 @@ $column-header-height: 36px;
 $column-footer-height: 36px;
 $collumn-border-radius: 5px;
 
-$list-bg-color: #ebecf0;
 $column-height: calc(#{$board-content-height} - #{$gap * 2});
 
 .column {
@@ -39,7 +38,7 @@ $column-height: calc(#{$board-content-height} - #{$gap * 2});
         color: #888;
 
         .footer-actions {
-            margin-left: $gap;
+            margin-left: 5px;
             cursor: pointer;
             &:hover {
                 color: $app-main-text-color;
