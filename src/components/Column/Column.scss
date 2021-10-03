@@ -1,6 +1,6 @@
 @import "_setting.scss";
 
-$column-header-height: 36px;
+$column-header-height: 46px;
 $column-footer-height: 36px;
 $collumn-border-radius: 5px;
 
@@ -16,17 +16,58 @@ $column-height: calc(#{$board-content-height} - #{$gap * 2});
         padding: 0 8px;
     }
     header.column-drag-handle {
-        padding-left: 15px;
+        padding: 5px 8px;
         height: $column-header-height;
         line-height: $column-header-height;
         font-size: 16px;
         font-weight: bold;
         border-top-left-radius: $collumn-border-radius;
         border-top-right-radius: $collumn-border-radius;
-        cursor: grab;
+        cursor: pointer;
+        display: flex;
+        .column-title {
+            flex: 90%;
+        }
+        .column-dropdown-actions {
+            flex: 10%;
+            .dropdown {
+                button.dropdown-btn {
+                    padding: 0 10px;
+                    font-size: 16px;
+                    height: 32px;
+                    margin-top: -17px;
+                    font-weight: bold;
+                    letter-spacing: 1px;
+                    background-color: $list-bg-color;
+                    border-color: $list-bg-color;
+                    color: $app-main-text-color;
+                    &::after {
+                        content: "...";
+                        border: none;
+                        vertical-align: 1.255em;
+                    }
+                    &:hover {
+                        background-color: darken($list-bg-color, 10);
+                    }
+                }
+            }
+
+            .dropdown-menu {
+                padding: 0;
+                min-width: 200px;
+
+                .dropdown-item {
+                    padding: 0.1rem 1rem;
+                    font-size: 14px;
+                    &:not(:last-child) {
+                        border-bottom: 1px solid darken($list-bg-color, 10);
+                    }
+                }
+            }
+        }
     }
     header.column-drag-handle:focus {
-        cursor: grabbing;
+        cursor: pointer;
     }
     footer {
         padding-left: $gap;
