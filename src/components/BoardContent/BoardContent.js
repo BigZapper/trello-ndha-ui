@@ -1,6 +1,6 @@
 import Column from 'components/Column/Column'
 import { isEmpty } from 'lodash'
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import './BoardContent.scss'
 import { initialData } from 'actions/initialData'
 import { mapOrder } from 'ultilities/sorts'
@@ -13,8 +13,9 @@ export default function BoardContent() {
   const [columns, setColumns] = useState([])
   const [openNewColumnForm, setOpenNewColumnForm] = useState(false)
   const [newColumnTitle, setNewColumnTitle] = useState('')
+  const toggleOpenNewColumForm = () => setOpenNewColumnForm(!openNewColumnForm)
 
-  const onNewColumnTitleChange = useCallback((e) => setNewColumnTitle(e.target.value), [])
+  const onNewColumnTitleChange = (e) => setNewColumnTitle(e.target.value)
 
   const newColumnInputRef = useRef(null)
 
@@ -66,7 +67,6 @@ export default function BoardContent() {
     }
   }
 
-  const toggleOpenNewColumForm = () => setOpenNewColumnForm(!openNewColumnForm)
 
   const addNewColumn = () => {
     if (!newColumnTitle) {
@@ -132,7 +132,11 @@ export default function BoardContent() {
       >
         {columns.map((column, index) => (
           <Draggable key={index}>
-            <Column column={column} onCardDrop={onCardDrop} onUpdateColumn={onUpdateColumn} />
+            <Column
+              column={column}
+              onCardDrop={onCardDrop}
+              onUpdateColumn={onUpdateColumn}
+            />
           </Draggable>
         ))}
       </Container>
@@ -162,7 +166,7 @@ export default function BoardContent() {
                 onKeyDown={event => (event.key === 'Enter') && addNewColumn()}
               />
               <Button onClick={addNewColumn} variant='success' size='sm'>Add column</Button>
-              <span onClick={toggleOpenNewColumForm} className='cancel-new-column'>
+              <span onClick={toggleOpenNewColumForm} className='cancel-icon'>
                 <i className='fa fa-trash icon'></i>
               </span>
             </Col>
