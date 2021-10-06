@@ -6,7 +6,7 @@ import { mapOrder } from 'ultilities/sorts'
 import { Container, Draggable } from 'react-smooth-dnd'
 import { applyDrag } from 'ultilities/dragDrop'
 import { Button, Col, Container as BSContainer, Form, Row } from 'react-bootstrap'
-import { fetchBoardDetails } from 'actions/ApiCall'
+import { createNewColumn, fetchBoardDetails } from 'actions/ApiCall'
 
 export default function BoardContent() {
   const [board, setBoard] = useState({})
@@ -74,34 +74,34 @@ export default function BoardContent() {
       return
     }
     const newColumnToAdd = {
-      id: Math.random().toString(36).substr(2, 5),
       boardId: board._id,
-      title: newColumnTitle.trim(),
-      cardOrder: [],
-      cards: []
+      title: newColumnTitle.trim()
     }
 
-    let newColumns = [...columns]
-    newColumns.push(newColumnToAdd)
+    createNewColumn(newColumnToAdd).then(column => {
+      let newColumns = [...columns]
+      newColumns.push(column)
 
-    let newBoard = { ...board }
-    newBoard.columnOrder = newColumns.map(c => c._id)
-    newBoard.columns = newColumns
+      let newBoard = { ...board }
+      newBoard.columnOrder = newColumns.map(c => c._id)
+      newBoard.columns = newColumns
 
-    setColumns(newColumns)
-    setBoard(newBoard)
+      setColumns(newColumns)
+      setBoard(newBoard)
 
-    setNewColumnTitle('')
-    toggleOpenNewColumForm()
+      setNewColumnTitle('')
+      toggleOpenNewColumForm()
+    })
+
   }
 
-  const onUpdateColumn = (newColumnToUpdate) => {
+  const onUpdateColumnState = (newColumnToUpdate) => {
     const columnIdToUpdate = newColumnToUpdate._id
 
     let newColumns = [...columns]
     const columnIndexToUpdate = newColumns.findIndex(i => i._id === columnIdToUpdate)
 
-    if (newColumnToUpdate.destroy) {
+    if (newColumnToUpdate._destroy) {
       // remove column
       newColumns.splice(columnIndexToUpdate, 1)
     } else {
@@ -135,7 +135,7 @@ export default function BoardContent() {
             <Column
               column={column}
               onCardDrop={onCardDrop}
-              onUpdateColumn={onUpdateColumn}
+              onUpdateColumnState={onUpdateColumnState}
             />
           </Draggable>
         ))}
